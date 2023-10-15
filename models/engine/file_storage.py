@@ -73,11 +73,11 @@ class FileStorage:
                       for k, v in my_obj.items()}
 
             FileStorage.__objects = my_obj
-    
+
     def attributes(self):
         """Returns the valid attributes and their types
         for the various classes
-        
+
         Returns: The various classes and their attributes
         """
 

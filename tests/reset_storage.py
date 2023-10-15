@@ -2,6 +2,7 @@ from models.engine.file_storage import FileStorage
 
 import os
 
+
 def resetStorage():
     """Resets the storage"""
 

@@ -25,7 +25,7 @@ class TestFileStorage(unittest.TestCase):
         """Tests the instantiation of the class"""
 
         self.assertEqual(type(storage).__name__, "FileStorage")
-    
+
     # Case 1: init with no args
     def test_5_init_no_args(self):
         """Tests instantiation with no args"""
@@ -36,7 +36,7 @@ class TestFileStorage(unittest.TestCase):
         exception = str(e.exception)
         msg = "descriptor '__init__' of 'object' object needs an argument"
         self.assertEqual(exception, msg)
-    
+
     # Case 2: init with too much args
     def test_5_init_too_much_args(self):
         """Init with too much args"""
@@ -47,7 +47,7 @@ class TestFileStorage(unittest.TestCase):
         exception = str(e.exception)
         msg = "FileStorage() takes no arguments"
         self.assertEqual(exception, msg)
-    
+
     # Case 3: test the class attributes
     def test_5_attributes(self):
         """Tests the attributes of FileStorage class"""
@@ -56,5 +56,3 @@ class TestFileStorage(unittest.TestCase):
         self.assertTrue(hasattr(FileStorage, "_FileStorage__file_path"))
         self.assertTrue(hasattr(FileStorage, "_FileStorage__objects"))
         self.assertTrue(getattr(FileStorage, "_FileStorage__objects"), {})
-
-        

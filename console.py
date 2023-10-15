@@ -17,7 +17,7 @@ class HBNBCommand(cmd.Cmd):
         """Creates and saves a new instance of Base Model
         Args:
             - line: the command line argument
-        
+
         Returns: None
         """
         args = line.split()
@@ -40,7 +40,7 @@ class HBNBCommand(cmd.Cmd):
     def do_show(self, line):
         """prints the string representation of an instance
         based on the class name and id
-        
+
         Args:
             - line: command line argument
 
@@ -74,7 +74,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_destroy(self, line):
         """Deletes an instance based on the class name and id
-        
+
         Args:
             - line: command line arg
 
@@ -92,7 +92,7 @@ class HBNBCommand(cmd.Cmd):
         if len(args) < 2:
             print("** instance id missing **")
             return
-        
+
         instance_id = args[1]
         key = f"{cls_name}.{instance_id}"
         if key in storage.all():
@@ -110,10 +110,10 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, line):
         """prints all string representation of all instances
         based or not on the class namd
-        
+
         Args:
             - line: command line arg
-            
+
         Returns: None
         """
 
@@ -135,21 +135,21 @@ class HBNBCommand(cmd.Cmd):
         msg = "Prints all string representation of all"
         msg += " instances based or not on the class name"
         print(msg)
-    
+
     def do_update(self, line):
         """Update an instance based on the class name and id
         by adding or updating attribute
-        
+
         Args:
             - line: the command line
-        
+
         Returns: None
         """
 
         if line == "" or line is None:
             print("** class name missing **")
             return
-        
+
         args = line.split()
         classname = args[0]
         if classname not in storage.classes():
@@ -188,7 +188,7 @@ class HBNBCommand(cmd.Cmd):
             try:
                 value = cast(value)
             except ValueError:
-                pass # value is string
+                pass  # value is string
         setattr(storage.all()[key], attribute, value)
         storage.all()[key].save()
 

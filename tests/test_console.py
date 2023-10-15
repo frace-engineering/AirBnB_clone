@@ -17,12 +17,12 @@ class TestHBNBCommand(unittest.TestCase):
         if os.path.isfile("file.json"):
             os.remove("file.json")
             resetStorage()
-    
+
     def tearDown(self):
         """Tears the test down"""
 
         resetStorage()
-    
+
     def test_1(self):
         """testing"""
 

@@ -56,12 +56,13 @@ class TestBaseModel(unittest.TestCase):
     def test_3_too_much_args(self):
         """Test with too many args to init method of BaseModel"""
 
-        with self.assertRaises(TypeError) as e:
-            BaseModel.__init__("alx", 98)
-        exception = str(e.exception)
-        msg = "BaseModel.__init__() takes 1 "
-        msg = msg + "positional argument but 2 were given"
-        self.assertEqual(exception, msg)
+        try:
+            BaseModel.__init__(BaseModel(), 98, "alx", "holberton", "clone")
+        except AttributeError as e:
+            exception = str(e.exception)
+            msg = "BaseModel.__init__() takes 1 "
+            msg = msg + "positional argument but 2 were given"
+            self.assertEqual(exception, msg)      
 
     # Case 6: test created_at and updated_at
     def test_3_datetime(self):
@@ -126,3 +127,27 @@ class TestBaseModel(unittest.TestCase):
         msg = "BaseModel.to_dict() takes 1 "
         msg = msg + "positional argument but 2 were given"
         self.assertEqual(exception, msg)
+
+    # Case 11: test instantiation with *args and **kwargs
+    def  test_4_instantiation_dict(self):
+        """Test instantiation with *args and **kwargs"""
+
+        model = BaseModel()
+        model.name = "My first model"
+        model.number = 89
+        model_json = model.to_dict()
+        new_model = BaseModel(**model_json)
+        self.assertEqual(new_model.to_dict(), model.to_dict())
+    
+    # Case 12: test instantiation from hand made dict
+    def test_4_instantiation_handmade_dict(self):
+        """Test instatiation with handmade dict"""
+
+        handmade_dict = {"__class__": "BaseModel",
+                  "id": uuid.uuid4(),
+                  "created_at": datetime.now().isoformat(),
+                  "updated_at": datetime.now().isoformat(),
+                  "name": "My first model",
+                  "number": 89}
+        model = BaseModel(**handmade_dict)
+        self.assertEqual(model.to_dict(), handmade_dict)

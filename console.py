@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """ Create HBNBCommand class that inherites from cmd.Cmd class """
 import cmd
-from models.base_model import BaseModel
 
 
 class HBNBCommand(cmd.Cmd):

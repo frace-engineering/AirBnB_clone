@@ -2,6 +2,7 @@
 """ Create HBNBCommand class that inherites from cmd.Cmd class """
 import cmd
 from models.base_model import BaseModel
+from models.engine.file_storage import FileStorage
 
 
 class HBNBCommand(cmd.Cmd):
@@ -21,8 +22,9 @@ class HBNBCommand(cmd.Cmd):
         else:
             cls_name = args[0]
             if cls_name in self.classes:
-                cls_instance = self.classes[cls_name]()
-                cls_instance.save()
+                new_instance = self.classes[cls_name]()
+                new_instance.save()
+                print(f"{new_instance.id}")
             else:
                 print("** class doesn't exist **")
 
@@ -42,7 +44,7 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
         instance_id = args[1]
-        key = cls_name.instance_id
+        key = f"{cls_name}.{instance_id}"
         if key in self.objects:
             instance = self.objects[key]
             print(instance)
@@ -51,8 +53,47 @@ class HBNBCommand(cmd.Cmd):
 
     def help_show(self):
         print("Prints the string representation of an instance"
-              "based on the class name and id")
+              " based on the class name and id")
 
+    def do_destroy(self, line):
+        args = line.split()
+        if len(args) == 0:
+            print("** class name missing **")
+            return
+        cls_name = args[0]
+        if cls_name not in self.classes:
+            print("** class doesn't exist **")
+            return
+        instance_id = args[1]
+        key = f"{cls_name}.{instance_id}"
+        if key in self.objects:
+            del self.instance
+            instance.save()
+        else:
+            print("** no instance found **")
+            return
+
+    def help_destroy(self):
+        print("Deletes an instance based on the class name and id")
+
+    """
+    def do_all(self, line):
+        args = line.split()
+        if len(args) == 0:
+            BaseModel.__str__(self)
+            if objects:
+                for obj in objects.values():
+                    print(obj)
+        else:
+            cls_name = args[0]
+            if cls_name not in self.clasees:
+                print("** class doesn't exist **")
+       
+       return
+    """
+
+    def help_all(self):
+        print("Prints all string representation of all instances based or not on the class name")
     def emptyline(self):
         pass
 

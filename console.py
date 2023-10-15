@@ -7,7 +7,7 @@ class HBNBCommand(cmd.Cmd):
     """
     define the class methods/command to be recorgnized by this class
     """
-    prompt = "(hbnb)"
+    prompt = "(hbnb) "
 
     def emptyline(self):
         pass
@@ -16,17 +16,14 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def help_quit(self):
-        print("Quit command to exit the program")
+        print("Quit command to exit the program\n")
 
     def do_EOF(self, line):
         return True
 
-    def postloop(self):
-        print
-
     def help_EOF(self):
-        print("Press ctrl + D or enter 'EOF' to exit the program")
+        print("Press ctrl + D or enter 'EOF' to exit the program\n")
 
 
 if __name__ == "__main__":
-    HBNBCommand().cmdloop("<<< Welcome to F&K Console >>>")
+    HBNBCommand().cmdloop()

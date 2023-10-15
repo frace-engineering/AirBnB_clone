@@ -6,6 +6,7 @@ and deserializes JSON file to instances
 
 import json
 import os
+import datetime
 
 
 class FileStorage:
@@ -72,3 +73,21 @@ class FileStorage:
                       for k, v in my_obj.items()}
 
             FileStorage.__objects = my_obj
+    
+    def attributes(self):
+        """Returns the valid attributes and their types
+        for the various classes
+        
+        Returns: The various classes and their attributes
+        """
+
+        attributes = {
+            "BaseModel":
+            {
+                "id": str,
+                "created_at": datetime.datetime,
+                "updated_at": datetime.datetime
+            }
+        }
+
+        return attributes

@@ -4,6 +4,7 @@ import cmd
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 from models import storage
+import re
 
 
 class HBNBCommand(cmd.Cmd):
@@ -128,10 +129,71 @@ class HBNBCommand(cmd.Cmd):
                 models = [str(value) for key, value in storage.all().items()
                           if type(value).__name__ == cls_name]
                 print(models)
-       
 
     def help_all(self):
-        print("Prints all string representation of all instances based or not on the class name")
+        """prints help for all command"""
+        msg = "Prints all string representation of all"
+        msg += " instances based or not on the class name"
+        print(msg)
+    
+    def do_update(self, line):
+        """Update an instance based on the class name and id
+        by adding or updating attribute
+        
+        Args:
+            - line: the command line
+        
+        Returns: None
+        """
+
+        if line == "" or line is None:
+            print("** class name missing **")
+            return
+        
+        args = line.split()
+        classname = args[0]
+        if classname not in storage.classes():
+            print("*** class doesn't exist ***")
+            return
+        if len(args) == 1:
+            print("** instance id missing **")
+            return
+        id = args[1]
+        key = "{}.{}".format(classname, id)
+        if key not in storage.all():
+            print("** no instance found **")
+            return
+        if len(args) == 2:
+            print("** attribute name missing **")
+            return
+        attribute = args[2]
+
+        if len(args) == 3:
+            print("** value missing **")
+            return
+        value = args[3]
+
+        cast = None
+        if not re.search('^".*"$', value):
+            if '.' in value:
+                cast = float
+            else:
+                cast = int
+        else:
+            value = value.replace('"', '')
+        attributes = storage.attributes()[classname]
+        if attribute in attributes:
+            value = attributes[attribute](value)
+        elif cast:
+            try:
+                value = cast(value)
+            except ValueError:
+                pass # value is string
+        setattr(storage.all()[key], attribute, value)
+        storage.all()[key].save()
+
+        print(classname, id, attribute, value)
+
     def emptyline(self):
         pass
 

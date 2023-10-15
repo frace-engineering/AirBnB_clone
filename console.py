@@ -3,6 +3,7 @@
 import cmd
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
+from models import storage
 
 
 class HBNBCommand(cmd.Cmd):
@@ -10,34 +11,47 @@ class HBNBCommand(cmd.Cmd):
     define the class methods/command to be recorgnized by this class
     """
     prompt = "(hbnb) "
-    classes = {
-            "BaseModel": BaseModel,
-            }
-    objects = {}
 
     def do_create(self, line):
+        """Creates and saves a new instance of Base Model
+        Args:
+            - line: the command line argument
+        
+        Returns: None
+        """
         args = line.split()
         if len(args) == 0:
             print("** class name missing **")
         else:
             cls_name = args[0]
-            if cls_name in self.classes:
-                new_instance = self.classes[cls_name]()
+            if cls_name in storage.classes():
+                new_instance = storage.classes()[cls_name]()
                 new_instance.save()
                 print(f"{new_instance.id}")
             else:
                 print("** class doesn't exist **")
 
     def help_create(self):
+        """Prints help for create"""
+
         print("Create an instance of the BaseModel class\n")
 
     def do_show(self, line):
+        """prints the string representation of an instance
+        based on the class name and id
+        
+        Args:
+            - line: command line argument
+
+        Returns: None
+        """
+
         args = line.split()
         if len(args) == 0:
             print("** class name missing **")
             return
         cls_name = args[0]
-        if cls_name not in self.classes:
+        if cls_name not in storage.classes():
             print("** class doesn't exist **")
             return
         if len(args) < 2:
@@ -45,52 +59,76 @@ class HBNBCommand(cmd.Cmd):
             return
         instance_id = args[1]
         key = f"{cls_name}.{instance_id}"
-        if key in self.objects:
-            instance = self.objects[key]
+        if key in storage.all():
+            instance = storage.all()[key]
             print(instance)
         else:
             print("** no instance found **")
 
     def help_show(self):
+        """Shows help for show command"""
+
         print("Prints the string representation of an instance"
               " based on the class name and id")
 
     def do_destroy(self, line):
+        """Deletes an instance based on the class name and id
+        
+        Args:
+            - line: command line arg
+
+        Returns: None
+        """
+
         args = line.split()
         if len(args) == 0:
             print("** class name missing **")
             return
         cls_name = args[0]
-        if cls_name not in self.classes:
+        if cls_name not in storage.classes():
             print("** class doesn't exist **")
             return
+        if len(args) < 2:
+            print("** instance id missing **")
+            return
+        
         instance_id = args[1]
         key = f"{cls_name}.{instance_id}"
-        if key in self.objects:
-            del self.instance
-            instance.save()
+        if key in storage.all():
+            del storage.all()[key]
+            storage.save()
         else:
             print("** no instance found **")
             return
 
     def help_destroy(self):
+        """Shows help for destroy command"""
+
         print("Deletes an instance based on the class name and id")
 
-    """
     def do_all(self, line):
+        """prints all string representation of all instances
+        based or not on the class namd
+        
+        Args:
+            - line: command line arg
+            
+        Returns: None
+        """
+
         args = line.split()
         if len(args) == 0:
-            BaseModel.__str__(self)
-            if objects:
-                for obj in objects.values():
-                    print(obj)
+            models = [str(value) for key, value in storage.all().items()]
+            print(models)
         else:
             cls_name = args[0]
-            if cls_name not in self.clasees:
+            if cls_name not in storage.classes():
                 print("** class doesn't exist **")
+            else:
+                models = [str(value) for key, value in storage.all().items()
+                          if type(value).__name__ == cls_name]
+                print(models)
        
-       return
-    """
 
     def help_all(self):
         print("Prints all string representation of all instances based or not on the class name")

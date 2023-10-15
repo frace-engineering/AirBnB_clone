@@ -32,7 +32,7 @@ class FileStorage:
         Returns: None
         """
 
-        key = "{}.{}".format(type(obj), str(obj.id))
+        key = "{}.{}".format(type(obj).__name__, str(obj.id))
         FileStorage.__objects[key] = obj
 
     def save(self):

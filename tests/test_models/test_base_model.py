@@ -3,10 +3,12 @@
 
 import unittest
 from models.base_model import BaseModel
+from models.engine.file_storage import FileStorage
 from datetime import datetime
 import json
 import uuid
 import time
+import os
 
 
 class TestBaseModel(unittest.TestCase):
@@ -151,3 +153,48 @@ class TestBaseModel(unittest.TestCase):
                   "number": 89}
         model = BaseModel(**handmade_dict)
         self.assertEqual(model.to_dict(), handmade_dict)
+    
+    # Case 13: test save() method from FileStorage class
+    def test_5_save(self):
+        """Test the save method of the Storage class"""
+
+        # model = BaseModel()
+        # model.save()
+        # key = "{}.{}".format(type(model).__name__, str(model.id))
+        # d = {key: model.to_dict()}
+        # self.assertTrue(os.path.isfile(FileStorage._FileStorage__file_path))
+        # with open(FileStorage._FileStorage__file_path, "r",
+        #           encoding="utf-8") as f:
+        #     self.assertEqual(len(f.read()), len(json.dumps(d)))
+        #     f.seek(0)
+        #     self.assertEqual(json.load(f, d))
+    
+    # Case 14: testing FileStorage saving with no arguments
+    def test_5_no_args(self):
+        """Test FileStorage.save() with no arguments
+        
+        Returns: None
+        """
+
+        with self.assertRaises(TypeError) as e:
+            BaseModel.save()
+        exception = str(e.exception)
+        msg = "BaseModel.save() missing 1 required positional argument: 'self'"
+        self.assertEqual(exception, msg)
+    
+    # Case 15: test too much args to FileStorage.save()
+    def test_5_too_much_args(self):
+        """Tests FileStorage.save() with too much args
+        
+        Returns: None
+        """
+
+        with self.assertRaises(TypeError) as e:
+            BaseModel.save(self, 98)
+        exception = str(e.exception)
+        msg = "BaseModel.save() takes 1 positional argument but 2 were given"
+        self.assertEqual(str(e.exception), msg)
+
+
+if __name__ == '__main__':
+    unittest.main()

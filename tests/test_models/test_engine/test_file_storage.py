@@ -4,17 +4,20 @@
 import unittest
 from models.engine.file_storage import FileStorage
 from models import storage
+from tests.reset_storage import resetStorage
+
 
 class TestFileStorage(unittest.TestCase):
     """Test cases for the FileStorage class"""
 
     def setUp(self):
-        """Sets up test methods"""
+        """Sets up the test suite"""
 
         pass
 
     def tearDown(self):
-        
+        """Tears down the test suite"""
+        resetStorage()
         pass
 
     # Case 0: test class instantiation
@@ -27,6 +30,7 @@ class TestFileStorage(unittest.TestCase):
     def test_5_init_no_args(self):
         """Tests instantiation with no args"""
 
+        resetStorage()
         with self.assertRaises(TypeError) as e:
             FileStorage.__init__()
         exception = str(e.exception)
@@ -37,6 +41,7 @@ class TestFileStorage(unittest.TestCase):
     def test_5_init_too_much_args(self):
         """Init with too much args"""
 
+        resetStorage()
         with self.assertRaises(TypeError) as e:
             storage = FileStorage("alx", "holberton", 98, 4, 128)
         exception = str(e.exception)
@@ -47,6 +52,7 @@ class TestFileStorage(unittest.TestCase):
     def test_5_attributes(self):
         """Tests the attributes of FileStorage class"""
 
+        resetStorage()
         self.assertTrue(hasattr(FileStorage, "_FileStorage__file_path"))
         self.assertTrue(hasattr(FileStorage, "_FileStorage__objects"))
         self.assertTrue(getattr(FileStorage, "_FileStorage__objects"), {})

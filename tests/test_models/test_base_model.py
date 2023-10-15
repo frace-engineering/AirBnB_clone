@@ -9,6 +9,7 @@ import json
 import uuid
 import time
 import os
+from tests.reset_storage import resetStorage
 
 
 class TestBaseModel(unittest.TestCase):
@@ -24,7 +25,7 @@ class TestBaseModel(unittest.TestCase):
     def tearDown(self):
         """tears down the entire test suite"""
 
-        pass
+        resetStorage()
 
     # Case 2: Instantiation
     def test_3_instantiation(self):
@@ -47,6 +48,7 @@ class TestBaseModel(unittest.TestCase):
     def test_3_no_args(self):
         """Tests no arg to init method of BaseModel"""
 
+        resetStorage()
         with self.assertRaises(TypeError) as e:
             BaseModel.__init__()
         exception = str(e.exception)
@@ -58,6 +60,7 @@ class TestBaseModel(unittest.TestCase):
     def test_3_too_much_args(self):
         """Test with too many args to init method of BaseModel"""
 
+        resetStorage()
         try:
             BaseModel.__init__(BaseModel(), 98, "alx", "holberton", "clone")
         except AttributeError as e:
@@ -112,6 +115,7 @@ class TestBaseModel(unittest.TestCase):
     def test_3_dict_no_args(self):
         """Test to_dict() without an argument"""
 
+        resetStorage()
         with self.assertRaises(TypeError) as e:
             BaseModel.to_dict()
         exception = str(e.exception)
@@ -123,6 +127,7 @@ class TestBaseModel(unittest.TestCase):
     def test_3_dict_too_much_args(self):
         """Test too much args to dict"""
 
+        resetStorage()
         with self.assertRaises(TypeError) as e:
             BaseModel.to_dict("alx", 98)
         exception = str(e.exception)
@@ -158,16 +163,17 @@ class TestBaseModel(unittest.TestCase):
     def test_5_save(self):
         """Test the save method of the Storage class"""
 
-        # model = BaseModel()
-        # model.save()
-        # key = "{}.{}".format(type(model).__name__, str(model.id))
-        # d = {key: model.to_dict()}
-        # self.assertTrue(os.path.isfile(FileStorage._FileStorage__file_path))
-        # with open(FileStorage._FileStorage__file_path, "r",
-        #           encoding="utf-8") as f:
-        #     self.assertEqual(len(f.read()), len(json.dumps(d)))
-        #     f.seek(0)
-        #     self.assertEqual(json.load(f, d))
+        resetStorage()
+        model = BaseModel()
+        model.save()
+        key = "{}.{}".format(type(model).__name__, str(model.id))
+        d = {key: model.to_dict()}
+        self.assertTrue(os.path.isfile(FileStorage._FileStorage__file_path))
+        with open(FileStorage._FileStorage__file_path, "r",
+                  encoding="utf-8") as f:
+            self.assertEqual(len(f.read()), len(json.dumps(d)))
+            f.seek(0)
+            self.assertEqual(json.load(f, d))
     
     # Case 14: testing FileStorage saving with no arguments
     def test_5_no_args(self):
@@ -176,6 +182,7 @@ class TestBaseModel(unittest.TestCase):
         Returns: None
         """
 
+        resetStorage()
         with self.assertRaises(TypeError) as e:
             BaseModel.save()
         exception = str(e.exception)
@@ -189,6 +196,7 @@ class TestBaseModel(unittest.TestCase):
         Returns: None
         """
 
+        resetStorage()
         with self.assertRaises(TypeError) as e:
             BaseModel.save(self, 98)
         exception = str(e.exception)

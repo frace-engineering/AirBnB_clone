@@ -119,7 +119,7 @@ class TestBaseModel(unittest.TestCase):
         with self.assertRaises(TypeError) as e:
             BaseModel.to_dict()
         exception = str(e.exception)
-        msg = "BaseModel.to_dict() missing 1 required "
+        msg = "to_dict() missing 1 required "
         msg = msg + "positional argument: 'self'"
         self.assertEqual(exception, msg)
 
@@ -131,7 +131,7 @@ class TestBaseModel(unittest.TestCase):
         with self.assertRaises(TypeError) as e:
             BaseModel.to_dict("alx", 98)
         exception = str(e.exception)
-        msg = "BaseModel.to_dict() takes 1 "
+        msg = "to_dict() takes 1 "
         msg = msg + "positional argument but 2 were given"
         self.assertEqual(exception, msg)
 

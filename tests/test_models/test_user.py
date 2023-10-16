@@ -23,7 +23,7 @@ class TestUser(unittest.TestCase):
         resetStorage()
         pass
 
-    # Case 1: instantiation
+    # Case 0: instantiation
     def test_8_instantiation(self):
         """Test creation of new instance of User"""
 
@@ -32,7 +32,7 @@ class TestUser(unittest.TestCase):
         self.assertTrue(issubclass(type(user), BaseModel))
         self.assertEqual(str(type(user)), "<class 'models.user.User'>")
 
-    # Case 2: test for user attributes
+    # Case 1: test for user attributes
     def test_8_attribs(self):
         """Tests the attributes of the user instance"""
 

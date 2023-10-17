@@ -54,10 +54,13 @@ class HBNBCommand(cmd.Cmd):
             value = match_id_and_args.group(3)
 
         id = id.replace('"', '')
+        id = id.replace(',', '')
         attrib = attrib.replace('"', '')
+        attrib = attrib.replace(',', '')
         value = value.replace('"', '')
         command = method + " " + classname + " " + id
         command += " " + attrib + " " + value
+        print("----", command)
         self.onecmd(command)
         return command
 

@@ -13,6 +13,40 @@ class HBNBCommand(cmd.Cmd):
     """
     prompt = "(hbnb) "
 
+    def default(self, line):
+        """method called on input line when command prefix is not
+        recognized
+        
+        Args:
+            - line: the command line
+        
+        Returns: mixed
+        """
+
+        self._precmd(line)
+    
+    def _precmd(self, line):
+        """Runs commands for model.command() syntax
+        
+        Args:
+            - line: the command line
+        
+        Returns: mixed
+        """
+
+        match = re.search(r"^(\w+).(\w+)\(([^)]*)\)$", line)
+        if not match:
+            return line
+        
+        classname = match.group(1)
+        method = match.group(2)
+        args = match.group(3)
+
+        id = args
+        command = method + " " + classname + " " + id
+        self.onecmd(command)
+        return command
+
     def do_create(self, line):
         """Creates and saves a new instance of Base Model
         Args:

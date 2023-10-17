@@ -16,34 +16,48 @@ class HBNBCommand(cmd.Cmd):
     def default(self, line):
         """method called on input line when command prefix is not
         recognized
-        
+
         Args:
             - line: the command line
-        
+
         Returns: mixed
         """
 
         self._precmd(line)
-    
+
     def _precmd(self, line):
         """Runs commands for model.command() syntax
-        
+
         Args:
             - line: the command line
-        
+
         Returns: mixed
         """
 
         match = re.search(r"^(\w+).(\w+)\(([^)]*)\)$", line)
         if not match:
             return line
-        
+
         classname = match.group(1)
         method = match.group(2)
         args = match.group(3)
 
         id = args
+        attrib = ""
+        value = ""
+        match2 = re.search(r'(^"(?:\w+-)+\w+"), ("\w+"), ("\w+@?\w+\.?\w+")',
+                           args)
+        match_id_and_args = match2
+        if match_id_and_args:
+            id = match_id_and_args.group(1)
+            attrib = match_id_and_args.group(2)
+            value = match_id_and_args.group(3)
+
+        id = id.replace('"', '')
+        attrib = attrib.replace('"', '')
+        value = value.replace('"', '')
         command = method + " " + classname + " " + id
+        command += " " + attrib + " " + value
         self.onecmd(command)
         return command
 
@@ -227,14 +241,14 @@ class HBNBCommand(cmd.Cmd):
         storage.all()[key].save()
 
         print(classname, id, attribute, value)
-    
+
     def do_count(self, line):
         """Counts the number of instances of the class
         in the line
-        
+
         Args:
             -line: the command line
-            
+
         Returns: None
         """
 

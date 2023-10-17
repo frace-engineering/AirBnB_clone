@@ -227,6 +227,26 @@ class HBNBCommand(cmd.Cmd):
         storage.all()[key].save()
 
         print(classname, id, attribute, value)
+    
+    def do_count(self, line):
+        """Counts the number of instances of the class
+        in the line
+        
+        Args:
+            -line: the command line
+            
+        Returns: None
+        """
+
+        args = line.split()
+        if not args[0]:
+            print("** class name is missing **")
+            return
+        if args[0] not in storage.classes():
+            print("** class doesn't exist **")
+            return
+        matches = [k for k in storage.all() if k.startswith(args[0] + '.')]
+        print(len(matches))
 
     def emptyline(self):
         pass

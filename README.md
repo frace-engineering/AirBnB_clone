@@ -1,7 +1,7 @@
 ---<<<<<<<<< THE AirBnB_clone >>>>>>>>>---
 
 Description:
-This priject is about web development based on python model.
+This project is about web development based on python model.
 The overrall concept is to a develope a full web application.
 
 console:

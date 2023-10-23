@@ -1,4 +1,6 @@
 .filters {
+	display: flex;
+	align-items: flex-end;
 	background: white;
 	height: 70px;
 	width: 100%;
@@ -13,6 +15,7 @@
 	width: 20%;
 	position: relative;
 	right: 30px;
+	border: none;
 }
 button:hover {
 	opacity: 90%;

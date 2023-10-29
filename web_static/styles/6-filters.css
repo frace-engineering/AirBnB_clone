@@ -38,7 +38,7 @@ div.amenities h4 {
 	font-weight: 400;
 	font-size: 14px;
 }
-div.popover {
+div.popover ul{
 	display: none;
 	background-color: #FAFAFA;
 	width: 100%;
@@ -46,10 +46,10 @@ div.popover {
 	border-radius: 4px;
 	list-style-type; none;
 }
-.popover h2 {
+.popover ul li h2 {
 	font-size: 16px;
 }
-.popover:hover {
-	display: inline-block;
+.location:hover .popover, .amenities:hover .popover {
+	display: inline;
 }
 
